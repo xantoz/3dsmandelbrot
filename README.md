@@ -1,3 +1,3 @@
-# template
+#3dsmandelbrot 
 
-This is a template for starting new 3DS/ctrulib projects.
+No homebrew scene is complete without a gazillion mandelbrot zoomers, so here is another one.
