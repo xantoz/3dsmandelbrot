@@ -1,5 +1,6 @@
 #include <3ds.h>
 #include <stdio.h>
+#include <string.h>
 #include <font.h>
 #include <math.h>
 #include <complex.h>
