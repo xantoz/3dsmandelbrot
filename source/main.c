@@ -13,7 +13,12 @@
 #define NICE_COLORS       1
 #define SILLY_3D          2
 #define MODE NICE_COLORS
-/***END OF CONFIGURATION****/
+/****END OF CONFIGURATION****/
+#if MODE == SILLY_3D
+#define USE_3D 1
+#else
+#define USE_3D 0
+#endif
 
 #define max(a,b)                                \
     ({ __typeof__ (a) _a = (a);                 \
@@ -88,8 +93,18 @@ void _DrawXBM(int x, int y, const char* bits, u16 width, u16 height, u32 color, 
 void RefreshScreen()
 {
     TopFB = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
-    TopRFB = gfxGetFramebuffer(GFX_TOP, GFX_RIGHT, NULL, NULL);
+    if (USE_3D)
+        TopRFB = gfxGetFramebuffer(GFX_TOP, GFX_RIGHT, NULL, NULL);
     BottomFB = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+}
+
+void ClearScreen()
+{
+    memset(TopFB, 0, 240*400*3);
+    if (USE_3D)
+        memset(TopRFB, 0, 240*400*3);
+    memset(BottomFB, 0, 240*320*3);
+
 }
 
 void DrawText(int x, int y, char* str, u32 color, int screen){
@@ -135,7 +150,9 @@ int main()
 	aptInit();
 	hidInit(NULL);
 	gfxInit();
-	gfxSet3D(true); // uncomment if using stereoscopic 3D
+
+    if (USE_3D)
+        gfxSet3D(true); 
 
     touchPosition tposd;
     touchPosition tposu;
@@ -155,9 +172,7 @@ int main()
     /* double fps = 0.0; */
 
     RefreshScreen();
-    memset(TopFB, 0, 240*400*3);
-    memset(TopRFB, 0, 240*400*3);
-    memset(BottomFB, 0, 240*320*3);
+    ClearScreen();
     gfxFlushBuffers();
     gfxSwapBuffers();
 
@@ -179,9 +194,7 @@ int main()
         if (kDown & KEY_A)
         {
             RefreshScreen();
-            memset(TopFB, 0, 240*400*3);
-            memset(TopRFB, 0, 240*400*3);
-            memset(BottomFB, 0, 240*320*3);
+            ClearScreen();
             gfxFlushBuffers();
             gfxSwapBuffers();
             
@@ -202,9 +215,7 @@ int main()
         if (kUp & KEY_TOUCH)
         {
             RefreshScreen();
-            memset(TopFB, 0, 240*400*3);
-            memset(TopRFB, 0, 240*400*3);
-            memset(BottomFB, 0, 240*320*3);
+            ClearScreen();
             gfxFlushBuffers();
             gfxSwapBuffers();
 
