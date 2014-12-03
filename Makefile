@@ -31,6 +31,7 @@ BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
+APP_AUTHOR  :=  xantoz
 
 #---------------------------------------------------------------------------------
 # options for code generation
