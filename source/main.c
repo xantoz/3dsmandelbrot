@@ -42,6 +42,24 @@ u8* TopFB;
 u8* TopRFB;
 u8* BottomFB;
 
+static inline u32 xGetPixel(int x,int y,int screen)
+{
+    int idx = ((x)*240) + (239-(y));
+    if (screen == 0)
+    {
+        return RGB8(TopFB[idx*3+2], TopFB[idx*3+1], TopFB[idx*3+0]);
+    }
+    else if (screen == 1)
+    {
+        return RGB8(TopRFB[idx*3+2], TopRFB[idx*3+1], TopRFB[idx*3+0]);
+    }
+    else
+    {
+        return RGB8(BottomFB[idx*3+2], BottomFB[idx*3+1], BottomFB[idx*3+0]);
+    }
+}
+
+
 static inline void xDrawPixel(int x,int y,u32 color,int screen)
 {
     int idx = ((x)*240) + (239-(y));
@@ -293,6 +311,68 @@ int main()
             gfxFlushBuffers();
         }
 
+        const u32 marker_color = 0xFFFFFF;
+        if (kHeld & KEY_TOUCH)
+        {
+            u16 ux  = max(tposd.px, tposu.px);
+            u16 uy = max(tposd.py, tposu.py);
+            u16 lx  = min(tposd.px, tposu.px);
+            u16 ly = min(tposd.py, tposu.py);
+            xDrawPixel(ux, uy, marker_color ^ xGetPixel(ux, uy, 2), 2);
+            xDrawPixel(ux, ly, marker_color ^ xGetPixel(ux, ly, 2), 2);
+            xDrawPixel(lx, uy, marker_color ^ xGetPixel(lx, uy, 2), 2);
+            xDrawPixel(lx, ly, marker_color ^ xGetPixel(lx, ly, 2), 2);
+            /* for (u16 x = ux; x <= lx; ++x) */
+            /* { */
+            /*     xDrawPixel(x, uy, marker_color ^ xGetPixel(x, uy, 2), 2); */
+            /*     xDrawPixel(x, ly, marker_color ^ xGetPixel(x, ly, 2), 2); */
+            /* } */
+            /* for (u16 y = uy; y <= ly; ++y) */
+            /* { */
+            /*     xDrawPixel(ux, y, marker_color ^ xGetPixel(ux, y, 2), 2); */
+            /*     xDrawPixel(lx, y, marker_color ^ xGetPixel(lx, y, 2), 2); */
+            /* } */
+            gfxFlushBuffers();
+        }
+        if (kHeld & KEY_TOUCH)
+        {
+            u16 ux  = max(tposd.px, tposu.px);
+            u16 uy = max(tposd.py, tposu.py);
+            u16 lx  = min(tposd.px, tposu.px);
+            u16 ly = min(tposd.py, tposu.py);
+            xDrawPixel(ux, uy, marker_color ^ xGetPixel(ux, uy, 2), 2);
+            xDrawPixel(ux, ly, marker_color ^ xGetPixel(ux, ly, 2), 2);
+            xDrawPixel(lx, uy, marker_color ^ xGetPixel(lx, uy, 2), 2);
+            xDrawPixel(lx, ly, marker_color ^ xGetPixel(lx, ly, 2), 2);
+            /* for (u16 x = ux; x <= lx; ++x) */
+            /* { */
+            /*     xDrawPixel(x, uy, marker_color ^ xGetPixel(x, uy, 2), 2); */
+            /*     xDrawPixel(x, ly, marker_color ^ xGetPixel(x, ly, 2), 2); */
+            /* } */
+            /* for (u16 y = uy; y <= ly; ++y) */
+            /* { */
+            /*     xDrawPixel(ux, y, marker_color ^ xGetPixel(ux, y, 2), 2); */
+            /*     xDrawPixel(lx, y, marker_color ^ xGetPixel(lx, y, 2), 2); */
+            /* } */
+        }
+
+        /* if (kHeld & KEY_TOUCH) */
+        /* { */
+        /*     u16 ux  = max(tposd.px, tposu.px); */
+        /*     u16 uy = max(tposd.py, tposu.py); */
+        /*     u16 lx  = min(tposd.px, tposu.px); */
+        /*     u16 ly = min(tposd.py, tposu.py); */
+        /*     for (u16 x = ux; x <= lx; ++x) */
+        /*     { */
+        /*         xDrawPixel(x, uy, RGB8(255,255,255) ^ xGetPixel(x, uy, 2), 2); */
+        /*         xDrawPixel(x, ly, RGB8(255,255,255) ^ xGetPixel(x, uy, 2), 2); */
+        /*     } */
+        /*     for (u16 y = uy; y <= ly; ++y) */
+        /*     { */
+        /*         xDrawPixel(ux, y, RGB8(255,255,255) ^ xGetPixel(x, uy, 2), 2); */
+        /*         xDrawPixel(lx, y, RGB8(255,255,255) ^ xGetPixel(x, uy, 2), 2); */
+        /*     } */
+        /* } */
 	}
 
 	// Exit services

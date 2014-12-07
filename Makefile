@@ -37,10 +37,15 @@ APP_AUTHOR  :=  xantoz
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=softfp
+# ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=soft
 
 CFLAGS	:=	-g -Wall -O2 -mword-relocations \
-			-fomit-frame-pointer -ffast-math \
+			-fomit-frame-pointer -ffast-math\
 			$(ARCH)
+
+# CFLAGS	:=	-g -Wall -O2 -mword-relocations \
+# 			-fomit-frame-pointer -ffast-math -fassociative-math -freciprocal-math -ffinite-math-only -fno-math-errno -funsafe-math-optimizations\
+# 			$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -std=c99 -DARM11 -D_3DS
 
