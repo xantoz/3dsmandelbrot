@@ -285,7 +285,7 @@ int main()
         {
             t1 = osGetTime();
             char str[256];
-            snprintf(str, 255, "Done in %f seconds", (t1-t0)/1000.0);
+            snprintf(str, 255, "Done in %f seconds", (((double)t1)-((double)t0))/1000.0);
             DrawText(0, 0, str, 0x00FF0033, 2);
             snprintf(str, 255, "enws: %.3g %.3g %.3g %.3g", east, north, west, south);
             DrawText(0, 15, str, 0x00FF0033, 2);
