@@ -314,21 +314,17 @@ int main()
         const u32 marker_color = 0xFFFFFF;
         if (kHeld & KEY_TOUCH)
         {
-            u16 ux  = max(tposd.px, tposu.px);
-            u16 uy = max(tposd.py, tposu.py);
-            u16 lx  = min(tposd.px, tposu.px);
-            u16 ly = min(tposd.py, tposu.py);
-            xDrawPixel(ux, uy, marker_color ^ xGetPixel(ux, uy, 2), 2);
-            xDrawPixel(ux, ly, marker_color ^ xGetPixel(ux, ly, 2), 2);
-            xDrawPixel(lx, uy, marker_color ^ xGetPixel(lx, uy, 2), 2);
-            xDrawPixel(lx, ly, marker_color ^ xGetPixel(lx, ly, 2), 2);
+            xDrawPixel(tposd.px, tposd.py, marker_color ^ xGetPixel(tposd.px, tposd.py, 2), 2);
+            xDrawPixel(tposd.px, tposu.py, marker_color ^ xGetPixel(tposd.px, tposu.py, 2), 2);
+            xDrawPixel(tposu.px, tposd.py, marker_color ^ xGetPixel(tposu.px, tposd.py, 2), 2);
+            xDrawPixel(tposu.px, tposu.py, marker_color ^ xGetPixel(tposu.px, tposu.py, 2), 2);
 
             gfxFlushBuffers();
 
-            xDrawPixel(ux, uy, marker_color ^ xGetPixel(ux, uy, 2), 2);
-            xDrawPixel(ux, ly, marker_color ^ xGetPixel(ux, ly, 2), 2);
-            xDrawPixel(lx, uy, marker_color ^ xGetPixel(lx, uy, 2), 2);
-            xDrawPixel(lx, ly, marker_color ^ xGetPixel(lx, ly, 2), 2);
+            xDrawPixel(tposu.px, tposd.py, marker_color ^ xGetPixel(tposu.px, tposd.py, 2), 2);
+            xDrawPixel(tposd.px, tposu.py, marker_color ^ xGetPixel(tposd.px, tposu.py, 2), 2);
+            xDrawPixel(tposu.px, tposu.py, marker_color ^ xGetPixel(tposu.px, tposu.py, 2), 2);
+            xDrawPixel(tposd.px, tposd.py, marker_color ^ xGetPixel(tposd.px, tposd.py, 2), 2);
         }
 	}
 
