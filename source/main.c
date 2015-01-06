@@ -14,7 +14,7 @@
 #define NORMAL            0
 #define NICE_COLORS       1
 #define SILLY_3D          2
-u8 MODE = 0;
+u8 MODE = NICE_COLORS;
 
 #define max(a,b)                                \
     ({ __typeof__ (a) _a = (a);                 \
