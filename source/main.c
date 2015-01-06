@@ -167,7 +167,7 @@ int main()
 	srvInit();
 	aptInit();
 	hidInit(NULL);
-	gfxInit();
+    gfxInitDefault();
 
     if (USE_3D)
         gfxSet3D(true); 

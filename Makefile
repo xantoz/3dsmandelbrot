@@ -31,23 +31,17 @@ BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
-APP_AUTHOR  :=  xantoz
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=softfp
-# ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=soft
 
 CFLAGS	:=	-g -Wall -O2 -mword-relocations \
-			-fomit-frame-pointer -ffast-math\
+			-fomit-frame-pointer -ffast-math \
 			$(ARCH)
 
-# CFLAGS	:=	-g -Wall -O2 -mword-relocations \
-# 			-fomit-frame-pointer -ffast-math -fassociative-math -freciprocal-math -ffinite-math-only -fno-math-errno -funsafe-math-optimizations\
-# 			$(ARCH)
-
-CFLAGS	+=	$(INCLUDE) -std=c99 -DARM11 -D_3DS
+CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 
@@ -119,6 +113,10 @@ else
 	export APP_ICON := $(TOPDIR)/$(ICON)
 endif
 
+ifeq ($(strip $(NO_SMDH)),)
+	export _3DSXFLAGS += --smdh=$(CURDIR)/$(TARGET).smdh
+endif
+
 .PHONY: $(BUILD) clean all
 
 #---------------------------------------------------------------------------------
@@ -143,10 +141,11 @@ DEPENDS	:=	$(OFILES:.o=.d)
 # main targets
 #---------------------------------------------------------------------------------
 ifeq ($(strip $(NO_SMDH)),)
-.PHONY: all
-all	:	$(OUTPUT).3dsx $(OUTPUT).smdh
-endif
+$(OUTPUT).3dsx	:	$(OUTPUT).elf $(OUTPUT).smdh
+else
 $(OUTPUT).3dsx	:	$(OUTPUT).elf
+endif
+
 $(OUTPUT).elf	:	$(OFILES)
 
 #---------------------------------------------------------------------------------
