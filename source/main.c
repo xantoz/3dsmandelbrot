@@ -9,16 +9,12 @@
 
 /****START OF CONFIGURATION****/
 #define real double
+/****END OF CONFIGURATION****/
+
 #define NORMAL            0
 #define NICE_COLORS       1
 #define SILLY_3D          2
-#define MODE NICE_COLORS
-/****END OF CONFIGURATION****/
-#if MODE == SILLY_3D
-#define USE_3D 1
-#else
-#define USE_3D 0
-#endif
+u8 MODE = 0;
 
 #define max(a,b)                                \
     ({ __typeof__ (a) _a = (a);                 \
@@ -111,7 +107,7 @@ void _DrawXBM(int x, int y, const char* bits, u16 width, u16 height, u32 color, 
 void RefreshScreen()
 {
     TopFB = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
-    if (USE_3D)
+    if (MODE == SILLY_3D)
         TopRFB = gfxGetFramebuffer(GFX_TOP, GFX_RIGHT, NULL, NULL);
     BottomFB = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
 }
@@ -119,7 +115,7 @@ void RefreshScreen()
 void ClearScreen()
 {
     memset(TopFB, 0, 240*400*3);
-    if (USE_3D)
+    if (MODE == SILLY_3D)
         memset(TopRFB, 0, 240*400*3);
     memset(BottomFB, 0, 240*320*3);
 
@@ -169,8 +165,8 @@ int main()
 	hidInit(NULL);
     gfxInitDefault();
 
-    if (USE_3D)
-        gfxSet3D(true); 
+    /* if (USE_3D) */
+    /*     gfxSet3D(true);  */
 
     touchPosition tposd;
     touchPosition tposu;
@@ -220,6 +216,20 @@ int main()
             north = 1.0;
             west = 1.0;
             south = -1.0;
+            x = 0;
+            t0 = osGetTime();
+        }
+
+        if (kDown & KEY_B)
+        {
+            MODE = (MODE + 1) % 3;
+            gfxSet3D((MODE == SILLY_3D) ? true : false);
+            
+            RefreshScreen();
+            ClearScreen();
+            gfxFlushBuffers();
+            gfxSwapBuffers();
+            
             x = 0;
             t0 = osGetTime();
         }
