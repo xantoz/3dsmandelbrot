@@ -159,51 +159,46 @@ void DrawText(int x, int y, char* str, u32 color, int screen){
 
 int main()
 {
-	// Initialize services
-	srvInit();
-	aptInit();
-	hidInit(NULL);
+    // Initialize services
+    srvInit();
+    aptInit();
+    hidInit(NULL);
     gfxInitDefault();
-
-    /* if (USE_3D) */
-    /*     gfxSet3D(true);  */
 
     touchPosition tposd;
     touchPosition tposu;
-    /* touchPosition *tpos = &tposd; */
 
     u16 w = 400;
     u16 h = 240;
     u16 x = 0;
     u16 y = 0;
-    
+
     real east = -2.5;
     real north = 1.0;
     real west = 1.0;
     real south = -1.0;
 
     u64 t0 = 0, t1 = 0;
-    /* double fps = 0.0; */
 
     RefreshScreen();
     ClearScreen();
     gfxFlushBuffers();
     gfxSwapBuffers();
 
-	// Main loop
+    // Main loop
     t0 = osGetTime();
-	while (aptMainLoop())
-	{
-		hidScanInput();
+    while (aptMainLoop())
+    {
+        hidScanInput();
 
-		// Your code goes here
+        // Your code goes here
 
-		u32 kDown = hidKeysDown();
+        u32 kDown = hidKeysDown();
         u32 kUp   = hidKeysUp();
         u32 kHeld = hidKeysHeld();
-        
-		if (kDown & KEY_START)
-			break; // break in order to return to hbmenu
+
+        if (kDown & KEY_START)
+            break; // break in order to return to hbmenu
 
         if (kDown & KEY_A)
         {
@@ -211,7 +206,7 @@ int main()
             ClearScreen();
             gfxFlushBuffers();
             gfxSwapBuffers();
-            
+
             east = -2.5;
             north = 1.0;
             west = 1.0;
@@ -224,12 +219,12 @@ int main()
         {
             MODE = (MODE + 1) % 3;
             gfxSet3D((MODE == SILLY_3D) ? true : false);
-            
+
             RefreshScreen();
             ClearScreen();
             gfxFlushBuffers();
             gfxSwapBuffers();
-            
+
             x = 0;
             t0 = osGetTime();
         }
@@ -280,7 +275,7 @@ int main()
                 }
                 else if (MODE == NICE_COLORS)
                 {
-                
+
                     u16 iter = 0;
                     for (; iter != 2048; ++iter)
                     {
@@ -305,7 +300,7 @@ int main()
                     DrawPixel(x-40, y, RGB8(iter, iter, iter), 2);
                 }
             }
-            
+
             ++x;
             gfxFlushBuffers();
         }
@@ -336,12 +331,12 @@ int main()
             xDrawPixel(tposu.px, tposu.py, marker_color ^ xGetPixel(tposu.px, tposu.py, 2), 2);
             xDrawPixel(tposd.px, tposd.py, marker_color ^ xGetPixel(tposd.px, tposd.py, 2), 2);
         }
-	}
+    }
 
-	// Exit services
-	gfxExit();
-	hidExit();
-	aptExit();
-	srvExit();
-	return 0;
+    // Exit services
+    gfxExit();
+    hidExit();
+    aptExit();
+    srvExit();
+    return 0;
 }
